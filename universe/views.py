@@ -1,17 +1,31 @@
-from datetime import datetime
+from django.shortcuts import render
+from universe.models import Post
 
-from django.shortcuts import HttpResponse
 
 # Create your views here.
 
-def hello(request):
-    return HttpResponse("Hello! It's my project")
+def main_view(request):
+    if request.method == 'GET':
+        return render(request, 'layouts/index.html')
 
-def now_date(request):
-    current_date = datetime.now()
-    response = HttpResponse(current_date.strftime("%Y-%m-%d %H:%M:%S"))
-    return response
 
-def goodbye(request):
-    return HttpResponse("Goodbye user!")
+def posts_view(request):
+    if request.method == 'GET':
+        posts = Post.objects.all()
+
+        context_data = {
+            'posts': posts
+        }
+
+        return render(request, 'posts/index.html', context=context_data)
+
+
+def products_view(request):
+    if request.method == 'GET':
+        products = Post.objects.all()
+
+        products_data = {
+            'products': products
+        }
+    return render(request, "products/products.html", {"products": products_data})
 
